@@ -1,0 +1,8 @@
+What is the use of the docker save and docker load commands?
+A Docker image can be exported as an archive via the docker save command. For example:
+
+docker save -o <container-export-path>.tar <container-name>
+The exported Docker image can then be imported to another Docker host via the docker load command:
+
+docker load -i <container-path>.tar
+Note that this does not export data from any containers that were based on the image, just the image itself.
