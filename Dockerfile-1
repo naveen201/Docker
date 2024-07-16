@@ -1,0 +1,47 @@
+Python run with gunicorn
+
+FROM python:3.11.8
+WORKDIR /app
+COPY requirements.txt .
+RUN apt-get update
+RUN pip install -r requirements.txt
+# Copy everything except files and directories matching the specified patterns
+COPY . .
+EXPOSE 5000
+CMD ["gunicorn", "-c", "gunicorn-config.py", "main:flask_app"] #must define in application code
+
+======================================script host 
+FROM python:3.10
+WORKDIR /app
+COPY requirements.txt .
+RUN apt-get update
+RUN apt-get update && apt-get install -y \
+    default-libmysqlclient-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+RUN pip install mysqlclient==2.1.0
+RUN pip install -r requirements.txt
+# Copy everything except files and directories matching the specified patterns
+COPY . .
+#EXPOSE 5000
+CMD ["python", "prod_consumer_script.py"]
+
+===================Gunicorn==========================
+Using Gunicorn in the CMD command of a Dockerfile is a standard practice to ensure that the Python web application is served in a production-ready manner. Gunicorn offers benefits such as concurrency, stability, and performance, making it a suitable choice for serving web applications in Docker containers. By including Gunicorn in your Dockerfile, you ensure that your application can handle production workloads efficiently and reliably.
+
+
+============================while writing docker file then ask to developer for below information==========================
+
+1-Port no.
+2-Build command on local
+3-Start command local
+4-Deploy in prod or stagging
+5-Volume 
+6-Domain
+7-No. of pod
+8-cpu 
+9-Memory
+10-Name Space
+11-Health Check
+12-ingress
+
